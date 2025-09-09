@@ -2,12 +2,12 @@ import type { PluginListenerHandle} from '@capacitor/core';
 import { registerPlugin } from '@capacitor/core';
 import { ResizeObserver } from '@juggle/resize-observer';
 
-import type { IWebviewOverlayPlugin} from './definitions';
+import type { IWebviewOverlayPlugin, Position} from './definitions';
 import { ScriptInjectionTime } from './definitions';
 
 const WebviewOverlayPlugin = registerPlugin<IWebviewOverlayPlugin>('WebviewOverlayPlugin');
 
-export interface WebviewOverlayOpenOptions {
+export interface WebviewOverlayOpenOptions extends Position {
     /**
      * The URL to open the webview to
      */
@@ -76,8 +76,8 @@ class WebviewOverlayClass {
             injectionTime: options.script ? (options.script.injectionTime || ScriptInjectionTime.atDocumentStart) : ScriptInjectionTime.atDocumentStart,
             width: Math.round(boundingBox.width),
             height: Math.round(boundingBox.height),
-            x: Math.round(boundingBox.x),
-            y: Math.round(boundingBox.y)
+            x: Math.round(boundingBox.x + options.deltaX),
+            y: Math.round(boundingBox.y + options.deltaY)
         });
     }
 

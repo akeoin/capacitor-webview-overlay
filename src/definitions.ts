@@ -60,3 +60,17 @@ export enum ScriptInjectionTime {
     atDocumentStart,
     atDocumentEnd
 }
+
+/**
+ * Represents the change (delta) in the x and y coordinates, typically used for adjusting the position of an element relative to its current position.
+ */
+export interface Position {
+    /**
+     * Represents the change in the horizontal direction (x axis). A positive value moves the element to the right, and a negative value moves it to the left.
+     */
+    deltaX: number;
+    /**
+     * Represents the change in the vertical direction (y axis). A positive value moves the element downward, and a negative value moves it upward.
+     */
+    deltaY: number;
+}
