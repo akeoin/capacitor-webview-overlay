@@ -68,9 +68,9 @@ export interface Position {
     /**
      * Represents the change in the horizontal direction (x axis). A positive value moves the element to the right, and a negative value moves it to the left.
      */
-    deltaX: number;
+    deltaX?: number;
     /**
      * Represents the change in the vertical direction (y axis). A positive value moves the element downward, and a negative value moves it upward.
      */
-    deltaY: number;
+    deltaY?: number;
 }

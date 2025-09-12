@@ -76,8 +76,8 @@ class WebviewOverlayClass {
             injectionTime: options.script ? (options.script.injectionTime || ScriptInjectionTime.atDocumentStart) : ScriptInjectionTime.atDocumentStart,
             width: Math.round(boundingBox.width),
             height: Math.round(boundingBox.height),
-            x: Math.round(boundingBox.x + options.deltaX),
-            y: Math.round(boundingBox.y + options.deltaY)
+            x: Math.round(boundingBox.x + (options.deltaX ?? 0)),
+            y: Math.round(boundingBox.y + (options.deltaY ?? 0))
         });
     }
 
