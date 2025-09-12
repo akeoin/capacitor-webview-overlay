@@ -62,8 +62,8 @@ class WebviewOverlayClass {
                 WebviewOverlayPlugin.updateDimensions({
                     width: Math.round(boundingBox.width),
                     height: Math.round(boundingBox.height),
-                    x: Math.round(boundingBox.x),
-                    y: Math.round(boundingBox.y)
+                     x: Math.round(boundingBox.x + (options.deltaX ?? 0)),
+                     y: Math.round(boundingBox.y + (options.deltaY ?? 0)),
                 });
             }
         });
