@@ -39,6 +39,7 @@ class WebviewOverlayClass {
     navigationHandlerEvent!: PluginListenerHandle;
     miniAppCallbackEvent!: PluginListenerHandle;
     resizeObserver!: ResizeObserver;
+    historyChangeCallbackEvent!: PluginListenerHandle;
 
     open(options: WebviewOverlayOpenOptions): Promise<void> {
         this.element = options.element;
@@ -222,6 +223,9 @@ class WebviewOverlayClass {
         return WebviewOverlayPlugin.loadUrl({ url });
     }
 
+    addHistoryChangedListener(listener: (event: { url: string; canGoBack: boolean }) => void) {
+        this.historyChangeCallbackEvent = WebviewOverlayPlugin.addListener('historyChanged', listener);
+    }
 }
 
 export const WebviewOverlay = new WebviewOverlayClass();

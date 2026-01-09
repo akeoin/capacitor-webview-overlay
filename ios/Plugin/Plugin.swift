@@ -29,6 +29,7 @@ class WebviewOverlay: UIViewController, WKUIDelegate, WKNavigationDelegate {
 
     deinit {
         self.webview?.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress))
+        self.webview?.removeObserver(self, forKeyPath: #keyPath(WKWebView.url))
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -68,6 +69,7 @@ class WebviewOverlay: UIViewController, WKUIDelegate, WKNavigationDelegate {
         view.addSubview(self.closeFullscreenButton)
 
         self.webview?.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
+        self.webview?.addObserver(self,forKeyPath: #keyPath(WKWebView.url),options: [.new],context: nil)
     }
 
     override func viewDidLayoutSubviews() {
@@ -172,6 +174,23 @@ class WebviewOverlay: UIViewController, WKUIDelegate, WKNavigationDelegate {
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if (keyPath == "estimatedProgress") {
             plugin.notifyListeners("progress", data: ["value":self.webview?.estimatedProgress ?? 1])
+        }
+
+        if keyPath == "URL" {
+            guard let webView = object as? WKWebView else { return }
+
+            let url = webView.url?.absoluteString ?? "";
+            // Delay to allow WebView to update its history stack
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                let canGoBack = webView.canGoBack
+
+                let data: [String: Any] = [
+                    "url": url,
+                    "canGoBack": canGoBack
+                ]
+
+                self.plugin.notifyListeners("historyChanged", data: data)
+            }
         }
     }
 

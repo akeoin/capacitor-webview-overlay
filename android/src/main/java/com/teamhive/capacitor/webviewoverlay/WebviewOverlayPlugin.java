@@ -218,6 +218,19 @@ public class WebviewOverlayPlugin extends Plugin {
                             return false;
                         }
                     }
+
+                    @Override
+                    public void doUpdateVisitedHistory(WebView view, String url, boolean isReload) {
+                        super.doUpdateVisitedHistory(view, url, isReload);
+
+                        boolean canGoBack = view.canGoBack();
+
+                        JSObject data = new JSObject();
+                        data.put("url", url);
+                        data.put("canGoBack", canGoBack);
+
+                        notifyListeners("historyChanged", data);
+                    }
                 });
 
                 webView.setVisibility(View.INVISIBLE);
